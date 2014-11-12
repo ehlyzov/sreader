@@ -2,7 +2,7 @@ require 'minitest/spec'
 require 'minitest/autorun'
 
 require_relative '../lib/sreader'
-
+require 'pry'
 include Sreader
 
 describe DSL, :flat_array do
@@ -56,12 +56,12 @@ describe DSL, :target_class do
   end
 
   let(:data) do
-    [ "/\w+/", "/\d+/"]
+    [ "\\w+", "\\d+"]
   end
 
-  it "should recognize nested structures" do
+  it "should wrap data with given classes" do
      regexp = Regexp.union(subject.word, subject.number)
-     ["the answer is 42"].split.all? do |str| 
+     "the answer is 42".split.all? do |str| 
        str[ regexp ] 
      end.must_equal true
   end
@@ -70,7 +70,7 @@ end
 describe DSL, :nested_structures do
   subject do
     ::DSL.struct do
-      pair [(::DSL.struct do
+      pairs [(::DSL.struct do
                key
                value
             end)]
@@ -78,11 +78,11 @@ describe DSL, :nested_structures do
   end
 
   let(:data) do
-    [[:key1, :value1], [:key2, :value2]]
+    [[[:key1, :value1], [:key2, :value2]]]
   end
 
   it "should recognize nested structures" do
-    subject.map do |struct| 
+    subject.pairs.map do |struct| 
       [struct.key, struct.value]  
     end.to_h.must_equal({key1: :value1, key2: :value2})
   end
