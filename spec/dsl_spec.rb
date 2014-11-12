@@ -3,11 +3,12 @@ require 'minitest/autorun'
 
 require_relative '../lib/sreader'
 require 'pry'
-include Sreader
 
-describe DSL, :flat_array do
+include Sreader::DSL
+
+describe :flat_array do
   subject do
-    ::DSL.struct do
+    struct do
       one
       two
       three
@@ -31,9 +32,9 @@ describe DSL, :flat_array do
   end  
 end
 
-describe DSL, :transformation do
+describe :transformation do
   subject do
-    ::DSL.struct do
+    struct do
       date :to_sym.to_proc
     end.new(data)
   end
@@ -47,9 +48,9 @@ describe DSL, :transformation do
   end
 end
 
-describe DSL, :target_class do
+describe :target_class do
   subject do
-    ::DSL.struct do
+    struct do
        word Regexp
        number Regexp
     end.new(data)
@@ -67,10 +68,10 @@ describe DSL, :target_class do
   end
 end
 
-describe DSL, :nested_structures do
+describe :nested_structures do
   subject do
-    ::DSL.struct do
-      pairs [(::DSL.struct do
+    struct do
+      pairs [(struct do
                key
                value
             end)]

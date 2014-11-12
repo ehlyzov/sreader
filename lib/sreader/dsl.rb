@@ -72,7 +72,7 @@ module Sreader
       end
     end
 
-    def self.struct(&block)
+    def struct(&block)
       StructFactory.gen_class(
         Inspector.new.tap do |klass|
           klass.instance_eval &block
