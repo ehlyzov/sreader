@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sreader (0.0.1)
+    sreader (0.0.2)
 
 GEM
   remote: https://rubygems.org/
