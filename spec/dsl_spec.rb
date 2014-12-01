@@ -1,8 +1,4 @@
-require 'minitest/spec'
-require 'minitest/autorun'
-
-require_relative '../lib/sreader'
-require 'pry'
+require_relative './spec_helper'
 
 include Sreader::DSL
 
@@ -24,18 +20,15 @@ describe :flat_array do
   end
 
   it "should assign nil to uninitialized values" do
-    subject.new([1,2]).three.must_equal nil
+    proc { subject.new([1,2]) }.must_raise ArgumentError
   end
 
-  it "should raise exception when array is too big for specification" do
-    proc { subject.new([1,2,3,4]) }.must_raise ArgumentError    
-  end  
 end
 
 describe :transformation do
   subject do
     struct do
-      date :to_sym.to_proc
+      date Date.method(:parse)
     end.new(data)
   end
 
@@ -44,7 +37,7 @@ describe :transformation do
   end
 
   it "should use transformation if given" do
-    subject.date.must_equal( :'18-02-2009' )
+    subject.date.must_equal( Date.parse( '18-02-2009' ) )
   end
 end
 
@@ -52,7 +45,7 @@ describe :target_class do
   subject do
     struct do
        word Regexp
-       number Regexp
+       number Regexp       
     end.new(data)
   end
 
@@ -86,5 +79,62 @@ describe :nested_structures do
     subject.pairs.map do |struct| 
       [struct.key, struct.value]  
     end.to_h.must_equal({key1: :value1, key2: :value2})
+  end
+end
+
+describe :hash do
+  subject do
+    struct do
+      id :to_sym
+      name
+      gender      
+      birth Date.method(:parse)
+    end.new(data)
+  end
+
+  let(:data) do
+    {
+       id: 'pushkin',
+       name: 'Alexander Pushkin',
+       gender: 'male',
+       birth: '26-05-1799'
+    }
+  end
+
+  it "should use hash to instantiate structure" do
+    subject.id.must_equal :pushkin 
+  end
+
+  it "should wrap data with given class" do
+    subject.birth.must_equal Date.parse('26-05-1799')
+  end
+
+  describe "nested hashes" do
+    subject do
+      struct do
+        id :to_sym
+        children [(struct do
+            name
+            gender
+          end)]
+      end.new(data)     
+    end
+    
+    let(:data) do
+      {
+        id: "Tompsons",
+        children: [
+          { 
+            name: 'Elisa',
+            gender: 'f'
+          },
+          ['Mark', 'm']
+        ]
+      }
+    end
+
+    it "should recognize nested structures" do
+      subject.children.map(&:gender).must_equal ['f','m']
+    end
   end
 end
