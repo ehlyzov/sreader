@@ -2,9 +2,24 @@ require_relative './spec_helper'
 
 include Sreader::DSL
 
+describe :general do
+  subject do
+    array do
+      hello
+      world
+    end
+  end
+
+  it "stores its source" do
+    inspector = subject.source
+    Sreader::Factories::StructFactory.generator(:array, inspector: inspector).must_equal subject
+  end
+
+end
+
 describe :flat_array do
   subject do
-    struct do
+    array do
       one
       two
       three
@@ -27,7 +42,7 @@ end
 
 describe :transformation do
   subject do
-    struct do
+    array do
       date Date.method(:parse)
     end.new(data)
   end
@@ -43,7 +58,7 @@ end
 
 describe :target_class do
   subject do
-    struct do
+    array do
        word Regexp
        number Regexp       
     end.new(data)
@@ -63,8 +78,8 @@ end
 
 describe :nested_structures do
   subject do
-    struct do
-      pairs [(struct do
+    array do
+      pairs [(array do
                key
                value
             end)]
@@ -82,9 +97,9 @@ describe :nested_structures do
   end
 end
 
-describe :hash do
+describe :dict do
   subject do
-    struct do
+    dict do
       id :to_sym
       name
       gender      
@@ -101,7 +116,7 @@ describe :hash do
     }
   end
 
-  it "should use hash to instantiate structure" do
+  it "should use dict to instantiate structure" do
     subject.id.must_equal :pushkin 
   end
 
@@ -109,11 +124,11 @@ describe :hash do
     subject.birth.must_equal Date.parse('26-05-1799')
   end
 
-  describe "nested hashes" do
+  describe "nested dictes" do
     subject do
-      struct do
+      dict do
         id :to_sym
-        children [(struct do
+        children [(dict do
             name
             gender
           end)]
@@ -128,7 +143,10 @@ describe :hash do
             name: 'Elisa',
             gender: 'f'
           },
-          ['Mark', 'm']
+          { 
+            name: 'Mark', 
+            gender: 'm'
+          }
         ]
       }
     end
