@@ -1,5 +1,38 @@
 require_relative './spec_helper.rb'
 
+describe "concat" do
+  let(:left_array) do
+    array do
+      age
+      name
+    end
+  end
+
+  let(:right_array) do
+    array do
+      gender
+    end
+  end
+
+  let(:dict) do
+    dict do
+      gender
+    end
+  end
+
+  subject do
+    (left_array + right_array).new(['30', 'eugene', 'male'])
+  end
+
+  it "should be able to read concatenated data" do
+    subject.to_a.must_equal(['30', 'eugene', 'male'])
+  end
+
+  it "should not allow to concat different parsers" do
+    proc {left_array + dict}.must_raise ArgumentError
+  end 
+end
+
 describe "transform" do
   let(:source) do
     array do
