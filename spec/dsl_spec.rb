@@ -2,21 +2,6 @@ require_relative './spec_helper'
 
 include Sreader::DSL
 
-describe :general do
-  subject do
-    array do
-      hello
-      world
-    end
-  end
-
-  it "stores its source" do
-    inspector = subject.source
-    Sreader::Factories::StructFactory.generator(:array, inspector: inspector).must_equal subject
-  end
-
-end
-
 describe :flat_array do
   subject do
     array do
@@ -35,7 +20,7 @@ describe :flat_array do
   end
 
   it "should assign nil to uninitialized values" do
-    proc { subject.new([1,2]) }.must_raise ArgumentError
+    proc { subject.new([1,2]) }.must_raise RangeError
   end
 
 end
