@@ -4,7 +4,7 @@ describe Sreader::BlockTranslator do
 
   subject { Sreader::BlockTranslator }
 
-  let(:empty_fn) { -> {} }
+  let(:empty_fn) { proc {} }
 
   let(:simple1_standard_form) do
     [[:one], [:two], [:three]]
