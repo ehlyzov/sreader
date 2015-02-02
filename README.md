@@ -1,8 +1,6 @@
 # SReader
 
-UNSTABLE. WIP
-
-SReader provides DSL to generate ruby classes from data.
+SReader provides DSL to generate ruby classes from data and describe transformation rule for each field. 
 
 ## Installation
 
@@ -22,7 +20,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO
+```ruby
+include Sreader::DSL
+
+Person = array do
+  id :to_i  # :to_i will be converted to proc and applied for 'id'
+  name
+  bdate Date.method(:parse) # bdate will be converted to Date
+  companies [ (array do # it is how to describe embedded structures
+    id
+	title
+	position
+  end) ]
+  auth (dict do # auth is hash with following keys
+    key
+	secret
+  end)
+end
+
+me = Person.new(["1", "Eugene", "1984-01-01", [["42", "Life LLC", "operator"]],
+           { key: "KEY", secret: "SECRET"}])
+
+p me.id                 # 1
+p me.companies.first.id # "42"
+p me.auth.key           # "KEY"
+p Date === me.bdate     # true
+
+```
 
 See tests for more examples.
 
