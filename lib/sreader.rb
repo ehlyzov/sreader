@@ -1,8 +1,6 @@
 require_relative "sreader/version"
 
 module Sreader
-  autoload :DSL, 'sreader/dsl'
-
   module Readers; end
   module Factories; end
 end
@@ -16,3 +14,4 @@ require_relative 'sreader/factories/struct_factory'
 
 require_relative 'sreader/fn_resolver'
 
+require_relative 'sreader/dsl'
