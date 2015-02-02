@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ehlyzov/sreader.svg?branch=master)](https://travis-ci.org/ehlyzov/sreader)
+
 # SReader
 
 SReader provides DSL to generate ruby classes from data and describe transformation rule for each field. 
