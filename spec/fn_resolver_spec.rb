@@ -30,7 +30,7 @@ describe Sreader::FnResolver do
   end
 
   def resolver(sform)
-     Sreader::FnResolver.new(sform, container_klass)
+     Sreader::FnResolver.new(sform, container_factory)
   end
 
   def reader(data)
