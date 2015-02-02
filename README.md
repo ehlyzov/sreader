@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/ehlyzov/sreader.svg?branch=master)](https://travis-ci.org/ehlyzov/sreader)
+[![Build Status](https://travis-ci.org/ehlyzov/sreader.svg?branch=master)](https://travis-ci.org/ehlyzov/sreader) [![Code Climate](https://codeclimate.com/github/ehlyzov/sreader/badges/gpa.svg)](https://codeclimate.com/github/ehlyzov/sreader)
+
 
 # SReader
 
