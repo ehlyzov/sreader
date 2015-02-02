@@ -27,7 +27,7 @@ Or install it yourself as:
 include Sreader::DSL
 
 Person = array do
-  id :to_i  # :to_i will be converted to proc and applied for 'id'
+  id :to_i  # :to_i will be converted to a proc and applied for 'id'
   name
   bdate Date.method(:parse) # bdate will be converted to Date
   companies [ (array do # it is how to describe embedded structures
@@ -35,7 +35,7 @@ Person = array do
 	title
 	position
   end) ]
-  auth (dict do # auth is hash with following keys
+  auth (dict do # auth is a hash with the following keys
     key
 	secret
   end)
